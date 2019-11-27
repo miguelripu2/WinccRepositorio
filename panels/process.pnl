@@ -1,0 +1,1494 @@
+V 14
+3
+LANG:10001 8 (NoName)
+LANG:10000 8 (NoName)
+LANG:10027 18 (БезИмени)
+PANEL,-1 -1 994 514 N "_3DFace" 0
+E E E E E 1 -1 -1 0  48 48
+""0  1
+E E 3
+"CBRef" "1"
+"EClose" E
+"dpi" "96"
+0 0 0
+""
+DISPLAY_LAYER, 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0
+LAYER, 0 
+1
+LANG:10001 6 Layer1
+6 45
+"Border12"
+""
+1 576 472 E E E 1 E 1 E N "_WindowText" E N {0,0,255} E E
+ E E
+46 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+"// SimpleCtrlScriptStart {valid}
+main()
+{
+  EP_setScale();
+}
+
+EP_setScale()
+{
+dyn_errClass err;
+
+  if( !dpExists( \"T2.level:_online.._value\") )
+  {
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+    return;
+  }
+
+  dpConnect(\"EP_setScaleCB\",
+            \"T2.level:_online.._value\",
+            \"T2.level:_pv_range.._min\",
+            \"T2.level:_pv_range.._max\");
+  err = getLastError();
+  if (dynlen(err) > 0)
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+
+}
+
+EP_setScaleCB(string dp1, float NewValueY, string dp2, float fYMin, string dp3, float fYMax)
+{
+float Y_MIN_SCALE = 0.01 * 0;
+float Y_MAX_SCALE = 0.01 * 100;
+
+float fXScale;
+float fYScale;
+
+  getValue(\"\", \"scale\", fXScale, fYScale);
+  fYScale = ( 1.0 * (Y_MAX_SCALE - Y_MIN_SCALE) / (fYMax - fYMin)) * 
+            (NewValueY - fYMin) + Y_MIN_SCALE;
+  if (fYScale > Y_MAX_SCALE) fYScale = Y_MAX_SCALE;
+  else if (fYScale < Y_MIN_SCALE) fYScale = Y_MIN_SCALE;
+
+  setValue(\"\", \"scale\", fXScale, fYScale);
+}
+
+// SimpleCtrlScript {EP_setScale}
+// DPX {}
+// DPConfigX {}
+// DPTypeX {}
+// PVSSRangeX {0}
+// XMin {0}
+// XMax {0}
+// XMinScale {0}
+// XMaxScale {0}
+// DPY {T2.level}
+// DPConfigY {:_online.._value}
+// DPTypeY {float}
+// PVSSRangeY {1}
+// YMin {0.00}
+// YMax {3.00}
+// YMinScale {0}
+// YMaxScale {100}
+// SimpleCtrlScriptEnd {EP_setScale}
+" 0
+ E 0 1 1 0 1 E U  1 E 576 360 784 472
+10 18
+"Polyline3"
+""
+1 16 112 E E E 1 E 1 E N {51,153,204} E N "_Transparent" E E
+ E E
+19 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+E E 0 8 1 0 1 E U  0 E 8 16 112
+168 112
+168 120
+168 456
+536 456
+536 328
+600 328
+600 344
+ 0
+7 0
+"Ellipse1"
+""
+1 456 456 E E E 1 E 1 E N "_WindowText" E N {255,255,255} E E
+ "// SimpleCtrlScriptStart {valid}
+main()
+{
+  EP_childPanelOn();
+}
+
+EP_childPanelOn()
+{
+  ChildPanelOnRelativ(\"vision/dp_monitor.pnl\",
+      \"Monitor: P1\",
+      makeDynString(\"$b_editable:1\", \"$dp:P1\"),
+      40, -80);
+}
+
+// SimpleCtrlScript {EP_childPanelOn}
+// Function {ChildPanelOnRelativ}
+// File {vision/dp_monitor.pnl}
+// Panel {\"Monitor: P1\"}
+// Parent {}
+// Module {}
+// OffsetX {40}
+// OffsetY {-80}
+// PanelPara1 {$b_editable:1}
+// PanelPara2 {$dp:P1}
+// SimpleCtrlScriptEnd {EP_childPanelOn}
+" 0
+ E
+1 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 16 P1 (Feeder pump)
+LANG:10000 17 P1 (Förderpumpe)
+LANG:10027 30 P1 (Входной насос)
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+"// SimpleCtrlScriptStart {valid}
+main()
+{
+  EP_setBackColor();
+}
+
+EP_setBackColor()
+{
+dyn_errClass err;
+
+  if( !dpExists( \"System1:P1.state.speed:_online.._value\"))
+  {
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+    return;
+  }
+
+  dpConnect(\"EP_setBackColorCB\", 
+            \"System1:P1.state.speed:_online.._value\");
+  err = getLastError();
+  if (dynlen(err) > 0)
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+
+}
+
+
+EP_setBackColorCB(string dpSource, float fNewValue)
+{
+  if (fNewValue > 0)
+    setValue(\"\", \"backCol\", \"STD_device_on\");
+  else
+    setValue(\"\", \"backCol\", \"STD_device_off\");
+}
+
+// SimpleCtrlScript {EP_setBackColor}
+// DP {System1:P1.state.speed}
+// DPConfig {:_online.._value}
+// DPType {float}
+// AlertHdl {FALSE}
+// DPEInvalid {}
+// DPEConfigInvalid {}
+// Operator1 {bigger}
+// Operant1 {0}
+// Color1 {STD_device_on}
+// Operator2 {else}
+// Operant2 {}
+// Color2 {STD_device_off}
+// SimpleCtrlScriptEnd {EP_setBackColor}
+" 0
+ "// SimpleCtrlScriptStart {valid}
+main()
+{
+  EP_childPanelOn();
+}
+
+EP_childPanelOn()
+{
+  ChildPanelOnRelativ(\"objects_parts/GS_PUMP_dialog.pnl\",
+      \"P1\",
+      makeDynString(\"\"),
+      50, -90);
+}
+
+// SimpleCtrlScript {EP_childPanelOn}
+// Function {ChildPanelOnRelativ}
+// File {objects_parts/GS_PUMP_dialog.pnl}
+// Panel {P1}
+// Parent {}
+// Module {}
+// OffsetX {50}
+// OffsetY {-90}
+// SimpleCtrlScriptEnd {EP_childPanelOn}
+" 0
+ 0 2 1 0 1 E U  1 E 456 456 32 32
+10 4
+"Polyline1"
+""
+1 487 457 E E E 1 E 1 E N "_WindowText" E N "_Transparent" E E
+ E E
+5 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 16 P1 (Feeder pump)
+LANG:10000 17 P1 (Förderpumpe)
+LANG:10027 30 P1 (Входной насос)
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+E E 0 2 1 0 1 E U  0 E 3 487 457
+439 433
+439 481
+ 1
+6 6
+"Border1"
+""
+1 424 504 E E E 1 E 1 E N "_WindowText" E N {255,255,255} E E
+ E E
+7 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+E E 0 1 1 0 1 E U  1 E 424 496 488 504
+6 7
+"Border2"
+""
+1 424 504 E E E 1 E 1 E N "_WindowText" E N "STD_device_on" E E
+ E E
+8 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+"// SimpleCtrlScriptStart {valid}
+main()
+{
+  EP_setScale();
+}
+
+EP_setScale()
+{
+dyn_errClass err;
+
+  if( !dpExists( \"System1:P1.state.speed:_online.._value\") )
+  {
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+    return;
+  }
+
+  dpConnect(\"EP_setScaleCB\",
+            \"System1:P1.state.speed:_online.._value\",
+            \"System1:P1.state.speed:_pv_range.._min\",
+            \"System1:P1.state.speed:_pv_range.._max\");
+  err = getLastError();
+  if (dynlen(err) > 0)
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+
+}
+
+
+EP_setScaleCB(string dp1, float fNewValueX, string dp2, float fXMin, string dp3, float fXMax)
+{
+float X_MIN_SCALE = 0.01 * 0;
+float X_MAX_SCALE = 0.01 * 100;
+
+float fXScale;
+float fYScale;
+
+  getValue(\"\", \"scale\", fXScale, fYScale);
+  fXScale = ( 1.0 * (X_MAX_SCALE - X_MIN_SCALE) / (fXMax - fXMin)) * 
+            (fNewValueX - fXMin) + X_MIN_SCALE;
+  if (fXScale > X_MAX_SCALE) fXScale = X_MAX_SCALE;
+  else if (fXScale < X_MIN_SCALE) fXScale = X_MIN_SCALE;
+
+  setValue(\"\", \"scale\", fXScale, fYScale);
+}
+
+// SimpleCtrlScript {EP_setScale}
+// DPX {System1:P1.state.speed}
+// DPConfigX {:_online.._value}
+// DPTypeX {float}
+// PVSSRangeX {1}
+// XMin { 0.0}
+// XMax {100.0}
+// XMinScale {0}
+// XMaxScale {100}
+// DPY {}
+// DPConfigY {}
+// DPTypeY {}
+// PVSSRangeY {0}
+// YMin {0}
+// YMax {0}
+// YMinScale {0}
+// YMaxScale {0}
+// SimpleCtrlScriptEnd {EP_setScale}
+" 0
+ E 0 1 1 0 1 E U  1 E 424 496 488 504
+6 8
+"Border3"
+""
+1 465 452 E E E 1 E 1 E N "_Transparent" E N "_Transparent" E E
+ E E
+9 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+"// SimpleCtrlScriptStart {valid}
+main()
+{
+  EP_setVisible();
+}
+
+EP_setVisible()
+{
+dyn_errClass err;
+
+  if( !dpExists( \"System1:P1.state.manual:_online.._value\"))
+  {
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+    return;
+  }
+
+  dpConnect(\"EP_setVisibleCB\",
+            \"System1:P1.state.manual:_online.._value\");
+  err = getLastError();
+  if (dynlen(err) > 0)
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+
+}
+
+
+EP_setVisibleCB(string dp, bool boNewValue)
+{
+    setValue(\"\", \"visible\", boNewValue);
+}
+
+// SimpleCtrlScript {EP_setVisible}
+// DP {System1:P1.state.manual}
+// DPConfig {:_online.._value}
+// DPTyp {bool}
+// Active {1}
+// Operator {less}
+// Value {TRUE}
+// SimpleCtrlScriptEnd {EP_setVisible}
+" 0
+ E 0 1 1 0 1 E U  2  1 4  "pictures/Indicators/manual_mode_hand_yellow.wmf" 4294967295 E 465 420 497 452
+2 9
+"Text1"
+""
+1 419 420 E E E 1 E 1 E N {102,102,102} E N {204,204,204} E "// SimpleCtrlScriptStart {valid}
+main(int iType)
+{
+  dyn_errClass err;
+
+  int          i, iReturnValue = 1, iDpCount = 1;
+  dyn_int      diType = makeDynInt();
+  dyn_string   dsDps;
+
+  dsDps[1] = \"P1.alarm\" + \":_alert_hdl.._ack\";
+
+  if ( isFunctionDefined(\"isAckable\") )
+  {
+    isAckable( iType, dsDps, iReturnValue );
+    if ( iReturnValue == 0 || dynlen (dsDps ) < 1 ) return;
+  }
+
+  for ( i = 1; i <= dynlen(dsDps); i++ )
+    diType[i] = iType;
+
+  dpSetWait( dsDps, diType );
+
+  err = getLastError();
+  if ( dynlen(err) > 0 )
+    DebugN(err);
+}
+// SimpleCtrlScript {EP_confirm}
+// dpCount {1}
+// dp1 {P1.alarm}
+// SimpleCtrlScriptEnd {EP_confirm}
+" 0
+
+ E E
+10 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+4
+"sizePolicy" "Fixed Fixed"
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+"// SimpleCtrlScriptStart {valid}
+main()
+{
+  EP_setBackColor();
+}
+
+EP_setBackColor()
+{
+dyn_errClass err;
+
+  if( !dpExists( \"System1:P1.alarm:_alert_hdl.._act_state_color\"))
+  {
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+    return;
+  }
+
+  dpConnect(\"EP_setBackColorCB\", 
+            \"System1:P1.alarm:_alert_hdl.._act_state_color\");
+  err = getLastError();
+  if (dynlen(err) > 0)
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+
+}
+
+
+EP_setBackColorCB(string dpSource, string sNewColor)
+{
+  setValue(\"\", \"backCol\", sNewColor);
+}
+
+// SimpleCtrlScript {EP_setBackColor}
+// DP {System1:P1.alarm}
+// DPConfig {:_alert_hdl.._act_state_color}
+// DPType {string}
+// AlertHdl {TRUE}
+// DPEInvalid {}
+// DPEConfigInvalid {}
+// SimpleCtrlScriptEnd {EP_setBackColor}
+" 0
+ E 0 1 1 0 1 E U  1 E 421 422 441 442
+1 2 0 "0s" 0 0 0 65 0 0  421 422 1
+3
+LANG:10001 26 Arial,-1,19,5,75,0,0,0,0,0
+LANG:10000 26 Arial,-1,19,5,75,0,0,0,0,0
+LANG:10027 26 Arial,-1,19,5,75,0,0,0,0,0
+0 3
+LANG:10001 1 !
+LANG:10000 1 !
+LANG:10027 1 !
+10 11
+"Polyline2"
+""
+1 560 352 E E E 1 E 1 E N "_WindowText" E N {153,153,153} E E
+ E E
+12 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+E E 0 1 1 0 1 E U  1 E 8 560 352
+576 352
+576 472
+784 472
+784 352
+800 352
+800 488
+560 488
+ 1
+4 19
+"Line1"
+""
+1 800 464 E E E 1 E 1 E N {51,153,204} E N "_Transparent" E E
+ E E
+20 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+E E 0 8 1 0 1 E  800 464 976 464
+10 23
+"Polyline4"
+""
+1 16 104 E E E 1 E 1 E N "_WindowText" E N {51,153,204} E E
+ E E
+24 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+E E 0 1 1 0 1 E U  1 E 3 16 104
+16 120
+40 112
+ 1
+10 24
+"Polyline5"
+""
+1 944 456 E E E 1 E 1 E N "_WindowText" E N {51,153,204} E E
+ E E
+25 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+E E 0 1 1 0 1 E U  1 E 3 944 456
+944 472
+968 464
+ 1
+10 33
+"Polyline6"
+""
+1 112 128 E E E 1 E 1 E N "_WindowText" E N {102,102,102} E E
+ E E
+34 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+E E 0 1 1 0 1 E U  1 E 8 112 128
+112 136
+123 136
+123 160
+133 160
+133 136
+144 136
+144 128
+ 1
+10 34
+"Polyline7"
+""
+1 744 320 E E E 1 E 1 E N "_WindowText" E N {102,102,102} E E
+ E E
+35 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+E E 0 1 1 0 1 E U  1 E 8 744 320
+744 328
+755 328
+755 352
+765 352
+765 328
+776 328
+776 320
+ 1
+6 35
+"Border5"
+""
+1 105 259 E E E 1 E 1 E N "_Transparent" E N "_Transparent" E E
+ E E
+36 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+E E 0 1 1 0 1 E U  2  1 4  "pictures/Sensors/wavefront_m_down.wmf" 4294967295 E 105 163 153 259
+6 36
+"Border6"
+""
+1 737 454 E E E 1 E 1 E N "_Transparent" E N "_Transparent" E E
+ E E
+37 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+E E 0 1 1 0 1 E U  2  1 4  "pictures/Sensors/wavefront_m_down.wmf" 4294967295 E 737 358 785 454
+6 39
+"Border7"
+""
+1 200 327 E E E 1 E 1 E N "_WindowText" E N {255,255,255} E E
+ E E
+40 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+E E 0 1 1 0 1 E U  1 E 200 167 216 327
+6 40
+"Border8"
+""
+1 200 327 E E E 1 E 1 E N "_WindowText" E N {0,0,255} E E
+ E E
+41 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+"// SimpleCtrlScriptStart {valid}
+main()
+{
+  EP_setScale();
+}
+
+
+EP_setScale()
+{
+dyn_errClass err;
+
+  if( !dpExists( \"T1.level:_online.._value\") )
+  {
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+    return;
+  }
+
+  dpConnect(\"EP_setScaleCB\",
+            \"T1.level:_online.._value\",
+            \"T1.level:_pv_range.._min\",
+            \"T1.level:_pv_range.._max\");
+  err = getLastError();
+  if (dynlen(err) > 0)
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+
+}
+
+
+EP_setScaleCB(string dp1, float NewValueY, string dp2, float fYMin, string dp3, float fYMax)
+{
+float Y_MIN_SCALE = 0.01 * 0;
+float Y_MAX_SCALE = 0.01 * 100;
+
+float fXScale;
+float fYScale;
+
+  getValue(\"\", \"scale\", fXScale, fYScale);
+  fYScale = ( 1.0 * (Y_MAX_SCALE - Y_MIN_SCALE) / (fYMax - fYMin)) * 
+            (NewValueY - fYMin) + Y_MIN_SCALE;
+  if (fYScale > Y_MAX_SCALE) fYScale = Y_MAX_SCALE;
+  else if (fYScale < Y_MIN_SCALE) fYScale = Y_MIN_SCALE;
+
+  setValue(\"\", \"scale\", fXScale, fYScale);
+}
+
+// SimpleCtrlScript {EP_setScale}
+// DPX {}
+// DPConfigX {}
+// DPTypeX {}
+// PVSSRangeX {0}
+// XMin {0}
+// XMax {0}
+// XMinScale {0}
+// XMaxScale {0}
+// DPY {T1.level}
+// DPConfigY {:_online.._value}
+// DPTypeY {float}
+// PVSSRangeY {1}
+// YMin {0.00}
+// YMax {3.00}
+// YMinScale {0}
+// YMaxScale {100}
+// SimpleCtrlScriptEnd {EP_setScale}
+" 0
+ E 0 1 1 0 1 E U  1 E 200 167 216 327
+6 41
+"Border9"
+""
+1 788 368 E E E 1 E 1 E N "_WindowText" E N {255,0,0} E E
+ E E
+42 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+"// SimpleCtrlScriptStart {valid}
+main()
+{
+  EP_setBackColor();
+  EP_setVisible();
+}
+
+EP_setBackColor()
+{
+dyn_errClass err;
+
+  if( !dpExists( \"System1:T2.level:_alert_hdl.._act_state_color\"))
+  {
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+    return;
+  }
+
+  dpConnect(\"EP_setBackColorCB\", 
+            \"System1:T2.level:_alert_hdl.._act_state_color\");
+  err = getLastError();
+  if (dynlen(err) > 0)
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+
+}
+
+EP_setBackColorCB(string dpSource, string sNewColor)
+{
+  setValue(\"\", \"backCol\", sNewColor);
+}
+
+EP_setVisible()
+{
+dyn_errClass err;
+
+  if( !dpExists( \"System1:T2.level:_alert_hdl.._act_range\"))
+  {
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+    return;
+  }
+
+  dpConnect(\"EP_setVisibleCB\",
+            \"System1:T2.level:_alert_hdl.._act_range\");
+  err = getLastError();
+  if (dynlen(err) > 0)
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+
+}
+
+EP_setVisibleCB(string dp, int iNewValue)
+{
+  setValue(\"\", \"visible\",
+           (iNewValue == 3));
+}
+
+// SimpleCtrlScript {EP_setBackColor}
+// DP {System1:T2.level}
+// DPConfig {:_alert_hdl.._act_state_color}
+// DPType {string}
+// AlertHdl {TRUE}
+// DPEInvalid {}
+// DPEConfigInvalid {}
+// SimpleCtrlScriptEnd {EP_setBackColor}
+// SimpleCtrlScript {EP_setVisible}
+// DP {System1:T2.level}
+// DPConfig {:_alert_hdl.._act_range}
+// DPTyp {int}
+// Active {1}
+// Operator {equal}
+// Value {3}
+// SimpleCtrlScriptEnd {EP_setVisible}
+" 0
+ E 0 1 1 0 1 E U  1 E 788 360 796 368
+6 42
+"Border10"
+""
+1 788 472 E E E 1 E 1 E N "_WindowText" E N {255,0,0} E E
+ E E
+43 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+"// SimpleCtrlScriptStart {invalid}
+main()
+{
+  EP_setBackColor();
+  EP_setVisible();
+}
+
+EP_setBackColor()
+{
+dyn_errClass err;
+
+  if( !dpExists( \"System1:T2.level:_alert_hdl.._act_state_color\"))
+  {
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+    return;
+  }
+
+  dpConnect(\"EP_setBackColorCB\", 
+            \"System1:T2.level:_alert_hdl.._act_state_color\");
+  err = getLastError();
+  if (dynlen(err) > 0)
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+
+}
+
+EP_setBackColorCB(string dpSource, string sNewColor)
+{
+  setValue(\"\", \"backCol\", sNewColor);
+}
+
+EP_setVisible()
+{
+dyn_errClass err;
+
+  if( !dpExists( \"System1:T2.level:_alert_hdl.._act_range\"))
+  {
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+    return;
+  }
+
+  dpConnect(\"EP_setVisibleCB\",
+            \"System1:T2.level:_alert_hdl.._act_range\");
+  err = getLastError();
+  if (dynlen(err) > 0)
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+
+}
+
+EP_setVisibleCB(string dp, int iNewValue)
+{
+  setValue(\"\", \"visible\",
+           (iNewValue == 1));
+}
+
+// SimpleCtrlScript {EP_setBackColor}
+// DP {System1:T2.level}
+// DPConfig {:_alert_hdl.._act_state_color}
+// DPType {string}
+// AlertHdl {TRUE}
+// DPEInvalid {}
+// DPEConfigInvalid {}
+// SimpleCtrlScriptEnd {EP_setBackColor}
+// SimpleCtrlScript {EP_setVisible}
+// DP {System1:T2.level}
+// DPConfig {:_alert_hdl.._act_range}
+// DPTyp {int}
+// Active {1}
+// Operator {equal}
+// Value {1}
+// SimpleCtrlScriptEnd {EP_setVisible}
+" 0
+ E 0 1 1 0 1 E U  1 E 788 464 796 472
+4 43
+"Line2"
+""
+1 576 360 E E E 1 E 1 E N "_WindowText" E N "_Transparent" E E
+ E E
+44 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+3
+"layoutAlignment" "AlignCenter"
+"dashclr"N "_Transparent"
+"antiAliased" "0"
+E E 0 1 1 0 1 E  576 360 784 360
+1 68 2 "" 0
+0
+1 75 3 "" 0
+0
+1 82 4 "" 0
+0
+14 37
+"TextField1"
+""
+1 127 304 E E E 1 E 1 E N "_WindowText" E N "_3DFace" E "// SimpleCtrlScriptStart {valid}
+main(int iType)
+{
+  dyn_errClass err;
+
+  int          i, iReturnValue = 1, iDpCount = 1;
+  dyn_int      diType = makeDynInt();
+  dyn_string   dsDps;
+
+  dsDps[1] = \"T1.level\" + \":_alert_hdl.._ack\";
+
+  if ( isFunctionDefined(\"isAckable\") )
+  {
+    isAckable( iType, dsDps, iReturnValue );
+    if ( iReturnValue == 0 || dynlen (dsDps ) < 1 ) return;
+  }
+
+  for ( i = 1; i <= dynlen(dsDps); i++ )
+    diType[i] = iType;
+
+  dpSetWait( dsDps, diType );
+
+  err = getLastError();
+  if ( dynlen(err) > 0 )
+    DebugN(err);
+}
+// SimpleCtrlScript {EP_confirm}
+// dpCount {1}
+// dp1 {T1.level}
+// SimpleCtrlScriptEnd {EP_confirm}
+" 0
+
+ "// SimpleCtrlScriptStart {valid}
+main()
+{
+  EP_childPanelOn();
+}
+
+EP_childPanelOn()
+{
+  ChildPanelOnRelativ(\"vision/dp_monitor.pnl\",
+      \"Monitor: T1\",
+      makeDynString(\"$b_editable:1\", \"$dp:T1\"),
+      50, -80);
+}
+
+// SimpleCtrlScript {EP_childPanelOn}
+// Function {ChildPanelOnRelativ}
+// File {vision/dp_monitor.pnl}
+// Panel {\"Monitor: T1\"}
+// Parent {}
+// Module {}
+// OffsetX {50}
+// OffsetY {-80}
+// PanelPara1 {$b_editable:1}
+// PanelPara2 {$dp:T1}
+// SimpleCtrlScriptEnd {EP_childPanelOn}
+" 0
+ E
+38 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+1
+"layoutAlignment" "AlignCenter"
+3
+LANG:10001 26 Arial,-1,13,5,75,0,0,0,0,0
+LANG:10000 26 Arial,-1,13,5,75,0,0,0,0,0
+LANG:10027 26 Arial,-1,13,5,75,0,0,0,0,0
+0  125 302 193 329
+2 "0s" 0 0 0 2 0 -1  E "// SimpleCtrlScriptStart {valid}
+main()
+{
+  EP_textFieldIn();
+  EP_setBackColor();
+}
+
+EP_textFieldIn()
+{
+dyn_errClass err;
+
+  if( !dpExists( \"System1:T1.level:_online.._value\"))
+  {
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+    return;
+  }
+
+  dpConnect(\"EP_textFieldInCB\",
+            \"System1:T1.level:_online.._value\");
+  err = getLastError();
+  if (dynlen(err) > 0)
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+
+}
+
+
+EP_textFieldInCB(string dp, float fNewValue)
+{
+  setValue(\"\", \"text\", dpValToString(dp, fNewValue, TRUE) );
+}
+
+EP_setBackColor()
+{
+dyn_errClass err;
+
+  if( !dpExists( \"System1:T1.level:_alert_hdl.._act_state_color\"))
+  {
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+    return;
+  }
+
+  dpConnect(\"EP_setBackColorCB\", 
+            \"System1:T1.level:_alert_hdl.._act_state_color\");
+  err = getLastError();
+  if (dynlen(err) > 0)
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+
+}
+
+EP_setBackColorCB(string dpSource, string sNewColor)
+{
+  setValue(\"\", \"backCol\", sNewColor);
+}
+
+// SimpleCtrlScript {EP_textFieldIn}
+// DP {System1:T1.level}
+// DPConfig {:_online.._value}
+// DPType {float}
+// UseDPUnit {TRUE}
+// UseDPFormat {TRUE}
+// SimpleCtrlScriptEnd {EP_textFieldIn}
+// SimpleCtrlScript {EP_setBackColor}
+// DP {System1:T1.level}
+// DPConfig {:_alert_hdl.._act_state_color}
+// DPType {string}
+// AlertHdl {TRUE}
+// DPEInvalid {}
+// DPEConfigInvalid {}
+// SimpleCtrlScriptEnd {EP_setBackColor}
+" 0
+ E
+14 38
+"TextField2"
+""
+1 645 430 E E E 1 E 1 E N "_WindowText" E N "_3DFace" E "// SimpleCtrlScriptStart {valid}
+main(int iType)
+{
+  dyn_errClass err;
+
+  int          i, iReturnValue = 1, iDpCount = 1;
+  dyn_int      diType = makeDynInt();
+  dyn_string   dsDps;
+
+  dsDps[1] = \"T2.level\" + \":_alert_hdl.._ack\";
+
+  if ( isFunctionDefined(\"isAckable\") )
+  {
+    isAckable( iType, dsDps, iReturnValue );
+    if ( iReturnValue == 0 || dynlen (dsDps ) < 1 ) return;
+  }
+
+  for ( i = 1; i <= dynlen(dsDps); i++ )
+    diType[i] = iType;
+
+  dpSetWait( dsDps, diType );
+
+  err = getLastError();
+  if ( dynlen(err) > 0 )
+    DebugN(err);
+}
+// SimpleCtrlScript {EP_confirm}
+// dpCount {1}
+// dp1 {T2.level}
+// SimpleCtrlScriptEnd {EP_confirm}
+" 0
+
+ "// SimpleCtrlScriptStart {valid}
+main()
+{
+  EP_childPanelOn();
+}
+
+EP_childPanelOn()
+{
+  ChildPanelOn(\"vision/dp_monitor.pnl\",
+      \"Monitor: T2\",
+      makeDynString(\"$b_editable:1\", \"$dp:T2\"),
+      50, -80);
+}
+
+// SimpleCtrlScript {EP_childPanelOn}
+// Function {ChildPanelOn}
+// File {vision/dp_monitor.pnl}
+// Panel {\"Monitor: T2\"}
+// Parent {}
+// Module {}
+// OffsetX {50}
+// OffsetY {-80}
+// PanelPara1 {$b_editable:1}
+// PanelPara2 {$dp:T2}
+// SimpleCtrlScriptEnd {EP_childPanelOn}
+" 0
+ E
+39 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+1
+"layoutAlignment" "AlignCenter"
+3
+LANG:10001 26 Arial,-1,13,5,75,0,0,0,0,0
+LANG:10000 26 Arial,-1,13,5,75,0,0,0,0,0
+LANG:10027 26 Arial,-1,13,5,75,0,0,0,0,0
+0  643 428 711 455
+2 "0s" 0 0 0 2 0 -1  E "// SimpleCtrlScriptStart {valid}
+main()
+{
+  EP_textFieldIn();
+  EP_setBackColor();
+}
+
+EP_textFieldIn()
+{
+dyn_errClass err;
+
+  if( !dpExists( \"System1:T2.level:_online.._value\"))
+  {
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+    return;
+  }
+
+  dpConnect(\"EP_textFieldInCB\",
+            \"System1:T2.level:_online.._value\");
+  err = getLastError();
+  if (dynlen(err) > 0)
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+
+}
+
+EP_textFieldInCB(string dp, float fNewValue)
+{
+  setValue(\"\", \"text\", dpValToString(dp, fNewValue, TRUE) );
+}
+
+EP_setBackColor()
+{
+dyn_errClass err;
+
+  if( !dpExists( \"System1:T2.level:_alert_hdl.._act_state_color\"))
+  {
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+    return;
+  }
+
+  dpConnect(\"EP_setBackColorCB\", 
+            \"System1:T2.level:_alert_hdl.._act_state_color\");
+  err = getLastError();
+  if (dynlen(err) > 0)
+    setValue(\"\", \"color\", \"_dpdoesnotexist\");
+
+}
+
+EP_setBackColorCB(string dpSource, string sNewColor)
+{
+  setValue(\"\", \"backCol\", sNewColor);
+}
+
+// SimpleCtrlScript {EP_textFieldIn}
+// DP {System1:T2.level}
+// DPConfig {:_online.._value}
+// DPType {float}
+// UseDPUnit {TRUE}
+// UseDPFormat {TRUE}
+// SimpleCtrlScriptEnd {EP_textFieldIn}
+// SimpleCtrlScript {EP_setBackColor}
+// DP {System1:T2.level}
+// DPConfig {:_alert_hdl.._act_state_color}
+// DPType {string}
+// AlertHdl {TRUE}
+// DPEInvalid {}
+// DPEConfigInvalid {}
+// SimpleCtrlScriptEnd {EP_setBackColor}
+" 0
+ E
+13 65
+"Button1"
+""
+1 860 30 E E E 1 E 1 E N "_ButtonText" E N "_Button" E E
+ E E
+51 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+1
+"layoutAlignment" "AlignCenter"
+3
+LANG:10001 26 Arial,-1,13,5,75,0,0,0,0,0
+LANG:10000 26 Arial,-1,13,5,75,0,0,0,0,0
+LANG:10027 26 Arial,-1,13,5,75,0,0,0,0,0
+0  858 28 972 62
+
+T 
+3
+LANG:10001 9 Shut down
+LANG:10000 11 Abschaltung
+LANG:10027 20 Отключение
+"// SimpleCtrlScriptStart {valid}
+main()
+{
+  EP_setDP();
+}
+
+EP_setDP()
+{
+dyn_errClass err;
+
+  dpSetWait(\"System1:SimControl.devices.allOff:_original.._value\", 1);
+  err = getLastError();
+  if (dynlen(err) > 0)
+    errorDialog(err);
+}
+
+// SimpleCtrlScript {EP_setDP}
+// DP1 {System1:SimControl.devices.allOff}
+// Config1 {:_original.._value}
+// Type1 {bool}
+// Value1 {1}
+// SimpleCtrlScriptEnd {EP_setDP}
+" 0
+ E E E
+13 66
+"Button2"
+""
+1 860 70 E E E 1 E 1 E N "_ButtonText" E N "_Button" E E
+ E E
+52 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+1
+"layoutAlignment" "AlignCenter"
+3
+LANG:10001 26 Arial,-1,13,5,75,0,0,0,0,0
+LANG:10000 26 Arial,-1,13,5,75,0,0,0,0,0
+LANG:10027 26 Arial,-1,13,5,75,0,0,0,0,0
+0  858 68 972 102
+
+T 
+3
+LANG:10001 9 Auto Mode
+LANG:10000 12 Auto-Betrieb
+LANG:10027 17 Авт.режим
+"// SimpleCtrlScriptStart {valid}
+main()
+{
+  EP_setDP();
+}
+
+EP_setDP()
+{
+dyn_errClass err;
+
+  dpSetWait(\"System1:SimControl.fullAuto:_original.._value\", 1);
+  err = getLastError();
+  if (dynlen(err) > 0)
+    errorDialog(err);
+}
+
+// SimpleCtrlScript {EP_setDP}
+// DP1 {System1:SimControl.fullAuto}
+// Config1 {:_original.._value}
+// Type1 {bool}
+// Value1 {1}
+// SimpleCtrlScriptEnd {EP_setDP}
+" 0
+ E E E
+13 67
+"Button3"
+""
+1 860 110 E E E 1 E 1 E N "_ButtonText" E N "_Button" E E
+ E E
+53 0 0 0 0 0
+E E E
+0
+3
+LANG:10001 0 
+LANG:10000 0 
+LANG:10027 0 
+
+1
+"layoutAlignment" "AlignCenter"
+3
+LANG:10001 26 Arial,-1,13,5,75,0,0,0,0,0
+LANG:10000 26 Arial,-1,13,5,75,0,0,0,0,0
+LANG:10027 26 Arial,-1,13,5,75,0,0,0,0,0
+0  858 108 972 142
+
+T 
+3
+LANG:10001 10 Simulation
+LANG:10000 13 Simulation...
+LANG:10027 16 Эмуляция
+"// SimpleCtrlScriptStart {valid}
+main()
+{
+  EP_childPanelOn();
+}
+
+EP_childPanelOn()
+{
+  ChildPanelOnCentralModal(\"details/sim_settings_cp.pnl\",
+      \"Simulation\",
+      makeDynString(\"\"));
+}
+
+// SimpleCtrlScript {EP_childPanelOn}
+// Function {ChildPanelOnCentralModal}
+// File {details/sim_settings_cp.pnl}
+// Panel {Simulation}
+// Parent {}
+// Module {}
+// OffsetX {0}
+// OffsetY {0}
+// SimpleCtrlScriptEnd {EP_childPanelOn}
+" 0
+ E E E
+1 89 5 "" 0
+0
+0
+LAYER, 1 
+1
+LANG:10001 6 Layer2
+0
+LAYER, 2 
+1
+LANG:10001 6 Layer3
+0
+LAYER, 3 
+1
+LANG:10001 6 Layer4
+0
+LAYER, 4 
+1
+LANG:10001 6 Layer5
+0
+LAYER, 5 
+1
+LANG:10001 6 Layer6
+0
+LAYER, 6 
+1
+LANG:10001 6 Layer7
+0
+LAYER, 7 
+1
+LANG:10001 6 Layer8
+0
+3 2 "" -1
+"layoutAlignment" "AlignCenter"
+"" ""
+"objects/GS_VALVE_ref.pnl" 57 44 T 48 1 0 1 -10 81
+1
+"$valve""V1"
+3 3 "Gruppe5" -1
+"layoutAlignment" "AlignCenter"
+"" ""
+"objects/GS_VALVE_ref.pnl" 47 13 T 49 1 0 1 216 457
+1
+"$valve""V2"
+3 4 "Gruppe7" -1
+"layoutAlignment" "AlignCenter"
+"" ""
+"objects/GS_VALVE_ref.pnl" 263 358 T 50 1 0 1 591 120
+1
+"$valve""V3"
+3 5 "" -1
+"layoutAlignment" "AlignCenter"
+"" ""
+"objects/STD_PANELS/PT_jump.pnl" 871 153 T 54 1 0 1 -11 -3
+3
+"$jump""0"
+"$panelName""process_trends.pnl"
+"$panelNumber""1"
+0
